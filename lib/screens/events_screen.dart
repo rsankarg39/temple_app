@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key});
+  EventsScreen({super.key}); // ✅ remove const
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -18,32 +18,31 @@ class _EventsScreenState extends State<EventsScreen> {
     _fetchEvents();
   }
 
-Future<void> _fetchEvents() async {
-  try {
-    final response = await Supabase.instance.client
-        .from('Events')
-        .select()
-        .order('date', ascending: true);
+  Future<void> _fetchEvents() async {
+    try {
+      final response = await Supabase.instance.client
+          .from('Events')
+          .select()
+          .order('date', ascending: true);
 
-    setState(() {
-      events = List<Map<String, dynamic>>.from(response);
-      loading = false;
-    });
-  } catch (e) {
-    debugPrint("Error fetching events: $e");
-    setState(() {
-      loading = false;
-    });
+      setState(() {
+        events = List<Map<String, dynamic>>.from(response);
+        loading = false;
+      });
+    } catch (e) {
+      debugPrint("Error fetching events: $e");
+      setState(() {
+        loading = false;
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return const Scaffold(
-        appBar: AppBar(title: Text("Events")),
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        appBar: AppBar(title: const Text("Events")),
+        body: const Center(child: CircularProgressIndicator()),
       );
     }
 
