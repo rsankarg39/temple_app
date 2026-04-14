@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EventsScreen extends StatefulWidget {
-  EventsScreen({super.key}); // ✅ remove const
+  const EventsScreen({super.key}); // ✅ remove const
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -21,7 +21,7 @@ class _EventsScreenState extends State<EventsScreen> {
   Future<void> _fetchEvents() async {
     try {
       final response = await Supabase.instance.client
-          .from('Events')
+          .from('events')
           .select()
           .order('date', ascending: true);
 

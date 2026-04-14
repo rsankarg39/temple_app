@@ -28,7 +28,7 @@ class TempleApp extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key}); // ✅ no const
+  const LoginScreen({super.key}); // ✅ no const
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
