@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key}); // ✅ remove const
+  EventsScreen({super.key}); // ✅ no const
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -21,7 +21,7 @@ class _EventsScreenState extends State<EventsScreen> {
   Future<void> _fetchEvents() async {
     try {
       final response = await Supabase.instance.client
-          .from('events')
+          .from('events') // ✅ lowercase table name
           .select()
           .order('date', ascending: true);
 
@@ -54,7 +54,7 @@ class _EventsScreenState extends State<EventsScreen> {
           final event = events[index];
           return Card(
             child: ListTile(
-              title: Text(event["title"] ?? ""),
+              title: Text(event["title"] ?? ""), // ✅ matches schema
               subtitle: Text("Date: ${event["date"] ?? ""}"),
             ),
           );
