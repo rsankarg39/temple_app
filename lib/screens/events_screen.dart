@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../services/supabase_service.dart';
 
 class EventsScreen extends StatefulWidget {
-  EventsScreen({super.key}); // ✅ no const
+  EventsScreen({super.key});
 
   @override
   State<EventsScreen> createState() => _EventsScreenState();
@@ -20,13 +20,9 @@ class _EventsScreenState extends State<EventsScreen> {
 
   Future<void> _fetchEvents() async {
     try {
-      final response = await Supabase.instance.client
-          .from('events') // ✅ lowercase table name
-          .select()
-          .order('date', ascending: true);
-
+      final data = await SupabaseService().fetchTable('events', orderBy: 'date');
       setState(() {
-        events = List<Map<String, dynamic>>.from(response);
+        events = data;
         loading = false;
       });
     } catch (e) {
@@ -39,27 +35,24 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return Scaffold(
-        appBar: AppBar(title: const Text("Events")),
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(title: const Text("Events")),
-      body: ListView.builder(
-        itemCount: events.length,
-        itemBuilder: (context, index) {
-          final event = events[index];
-          return Card(
-            child: ListTile(
-              title: Text(event["title"] ?? ""), // ✅ matches schema
-              subtitle: Text("Date: ${event["date"] ?? ""}"),
-            ),
-          );
-        },
-      ),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : events.isEmpty
+              ? const Center(child: Text("No events found"))
+              : ListView.builder(
+                  itemCount: events.length,
+                  itemBuilder: (context, index) {
+                    final event = events[index];
+                    return Card(
+                      child: ListTile(
+                        title: Text(event["title"] ?? ""),
+                        subtitle: Text("Date: ${event["date"] ?? ""}"),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }
