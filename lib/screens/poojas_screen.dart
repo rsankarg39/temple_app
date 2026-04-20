@@ -20,7 +20,7 @@ class _PoojasScreenState extends State<PoojasScreen> {
   }
 
   Future<void> _fetchPoojas() async {
-    final data = await SupabaseService().fetchTable('poojas', orderBy: 'date');
+    final data = await SupabaseService().fetchTable('poojas', orderBy: 'id');
     setState(() {
       poojas = data;
       loading = false;
@@ -33,26 +33,20 @@ class _PoojasScreenState extends State<PoojasScreen> {
       appBar: AppBar(title: const Text("Poojas")),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: poojas.length,
-              itemBuilder: (context, index) {
-                final pooja = poojas[index];
-                return Card(
-                  child: ListTile(
-                    title: Text(pooja["pooja_name"] ?? ""),
-                    subtitle: Text("Date: ${pooja["date"] ?? ""}"),
-                    trailing: widget.role == "Admin"
-                        ? IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              // TODO: implement delete
-                            },
-                          )
-                        : null,
-                  ),
-                );
-              },
-            ),
+          : poojas.isEmpty
+              ? const Center(child: Text("No poojas found"))
+              : ListView.builder(
+                  itemCount: poojas.length,
+                  itemBuilder: (context, index) {
+                    final pooja = poojas[index];
+                    return Card(
+                      child: ListTile(
+                        title: Text(pooja["name"] ?? ""),
+                        subtitle: Text(pooja["description"] ?? ""),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 
 class FamilyHeadsScreen extends StatefulWidget {
-  final String role; // pass role from dashboard
-  FamilyHeadsScreen({super.key, required this.role});
+  FamilyHeadsScreen({super.key});
 
   @override
   State<FamilyHeadsScreen> createState() => _FamilyHeadsScreenState();
@@ -20,7 +19,7 @@ class _FamilyHeadsScreenState extends State<FamilyHeadsScreen> {
   }
 
   Future<void> _fetchFamilyHeads() async {
-    final data = await SupabaseService().fetchTable('familyheads', orderBy: 'name');
+    final data = await SupabaseService().fetchTable('familyheads', orderBy: 'id');
     setState(() {
       familyHeads = data;
       loading = false;
@@ -33,28 +32,20 @@ class _FamilyHeadsScreenState extends State<FamilyHeadsScreen> {
       appBar: AppBar(title: const Text("Family Heads")),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: familyHeads.length,
-              itemBuilder: (context, index) {
-                final fh = familyHeads[index];
-                return Card(
-                  child: ListTile(
-                    title: Text(fh["name"] ?? ""),
-                    subtitle: Text(_maskData(fh)),
-                  ),
-                );
-              },
-            ),
+          : familyHeads.isEmpty
+              ? const Center(child: Text("No family heads found"))
+              : ListView.builder(
+                  itemCount: familyHeads.length,
+                  itemBuilder: (context, index) {
+                    final fh = familyHeads[index];
+                    return Card(
+                      child: ListTile(
+                        title: Text(fh["name"] ?? ""),
+                        subtitle: Text("Phone: ${fh["phone"] ?? ""}, Nakshatram: ${fh["nakshatram"] ?? ""}"),
+                      ),
+                    );
+                  },
+                ),
     );
-  }
-
-  String _maskData(Map<String, dynamic> fh) {
-    if (widget.role == "Admin") {
-      return "Phone: ${fh["phone"] ?? ""}, Address: ${fh["address"] ?? ""}";
-    } else if (widget.role == "Committee") {
-      return "Phone: ****${fh["phone"]?.toString().substring(fh["phone"].length - 2)}";
-    } else {
-      return "Details hidden";
-    }
   }
 }

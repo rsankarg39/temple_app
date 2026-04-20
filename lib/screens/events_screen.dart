@@ -19,18 +19,11 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   Future<void> _fetchEvents() async {
-    try {
-      final data = await SupabaseService().fetchTable('events', orderBy: 'date');
-      setState(() {
-        events = data;
-        loading = false;
-      });
-    } catch (e) {
-      debugPrint("Error fetching events: $e");
-      setState(() {
-        loading = false;
-      });
-    }
+    final data = await SupabaseService().fetchTable('events', orderBy: 'date');
+    setState(() {
+      events = data;
+      loading = false;
+    });
   }
 
   @override

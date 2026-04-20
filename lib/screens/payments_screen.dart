@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 
 class PaymentsScreen extends StatefulWidget {
-  final String role;
-  final String userId; // pass from login
-  PaymentsScreen({super.key, required this.role, required this.userId});
+  PaymentsScreen({super.key});
 
   @override
   State<PaymentsScreen> createState() => _PaymentsScreenState();
@@ -21,7 +19,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
   }
 
   Future<void> _fetchPayments() async {
-    final data = await SupabaseService().fetchTable('payments', orderBy: 'date', ascending: false);
+    final data = await SupabaseService().fetchTable('payments', orderBy: 'id');
     setState(() {
       payments = data;
       loading = false;
@@ -34,21 +32,20 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
       appBar: AppBar(title: const Text("Payments")),
       body: loading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: payments.length,
-              itemBuilder: (context, index) {
-                final pay = payments[index];
-                if (widget.role == "User" && pay["payer_id"] != widget.userId) {
-                  return const SizedBox.shrink(); // hide other users' payments
-                }
-                return Card(
-                  child: ListTile(
-                    title: Text("Payer: ${pay["payer"] ?? ""}"),
-                    subtitle: Text("Amount: ${pay["amount"] ?? ""}, Date: ${pay["date"] ?? ""}"),
-                  ),
-                );
-              },
-            ),
+          : payments.isEmpty
+              ? const Center(child: Text("No payments found"))
+              : ListView.builder(
+                  itemCount: payments.length,
+                  itemBuilder: (context, index) {
+                    final pay = payments[index];
+                    return Card(
+                      child: ListTile(
+                        title: Text("Payer: ${pay["payer"] ?? ""}"),
+                        subtitle: Text("Amount: ${pay["amount"] ?? ""}, Purpose: ${pay["purpose"] ?? ""}"),
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }
