@@ -19,7 +19,7 @@ class _EventsScreenState extends State<EventsScreen> {
   }
 
   Future<void> _fetchEvents() async {
-    final data = await SupabaseService().fetchTable('events', orderBy: 'date');
+    final data = await SupabaseService().fetchTable('events', orderBy: 'id');
     setState(() {
       events = data;
       loading = false;

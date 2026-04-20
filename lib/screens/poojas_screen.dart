@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/supabase_service.dart';
 
 class PoojasScreen extends StatefulWidget {
-  final String role;
-  PoojasScreen({super.key, required this.role});
+  PoojasScreen({super.key});
 
   @override
   State<PoojasScreen> createState() => _PoojasScreenState();

@@ -5,6 +5,8 @@ import 'screens/user_dashboard.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // Removed: import 'screens/login_screen.dart';  <-- not needed
 
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
