@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/admin_dashboard.dart';
-import 'screens/committee_dashboard.dart';
+import 'screens/committeemembers_screen.dart';
 import 'screens/user_dashboard.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // Removed: import 'screens/login_screen.dart';  <-- not needed
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (pin == "1111") {
       nextScreen = AdminDashboard(); // ✅ no const
     } else if (pin == "2222") {
-      nextScreen = CommitteeDashboard(); // ✅ no const
+      nextScreen = CommitteeMembersScreen(); // ✅ no const
     } else {
       nextScreen = UserDashboard(); // ✅ no const
     }
