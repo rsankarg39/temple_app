@@ -1,0 +1,29 @@
+# Copy this to android/key.properties and replace the placeholders with real values.
+# DO NOT commit android/key.properties to source control — add it to .gitignore.
+
+storePassword=YourStorePasswordHere
+keyPassword=YourKeyPasswordHere
+keyAlias=temple_book_app_alias
+# Use forward slashes in Windows paths to avoid Java properties escape handling.
+storeFile=C:/Users/YourUser/.android/temple_book_app_key.jks
+
+# App version (from pubspec.yaml):
+# Use this if you want to keep the APK/AAB version in the same place.
+appVersion=1.0.0+1
+
+# Example keytool command (replace JDK path and passwords if needed):
+# Interactive (recommended) — you'll be prompted to create the store and key passwords:
+# & "C:\Program Files\Java\jdk-26.0.1\bin\keytool.exe" -genkeypair -v \
+#   -keystore "%USERPROFILE%\\.android\\temple_book_app_key.jks" \
+#   -alias temple_book_app_alias \
+#   -keyalg RSA -keysize 2048 -validity 10000
+
+# Non-interactive (explicit passwords — less secure):
+# & "C:\Program Files\Java\jdk-26.0.1\bin\keytool.exe" -genkeypair -v \
+#   -keystore "%USERPROFILE%\\.android\\temple_book_app_key.jks" \
+#   -alias temple_book_app_alias \
+#   -keyalg RSA -keysize 2048 -validity 10000 \
+#   -storepass YourStorePasswordHere -keypass YourKeyPasswordHere
+
+# After creating, create android/key.properties (not committed) with the same values and
+# reference it from android/app/build.gradle.kts or the Gradle config used by your project.

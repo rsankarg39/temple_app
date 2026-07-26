@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter Web Server: localhost:50001",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": ["-d", "web-server", "--web-port", "50001", "--web-hostname", "localhost"]
+    }
+  ]
+}

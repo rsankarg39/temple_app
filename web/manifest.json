@@ -1,6 +1,6 @@
 {
-    "name": "temple_test",
-    "short_name": "temple_test",
+    "name": "temple_book_app",
+    "short_name": "temple_book_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
